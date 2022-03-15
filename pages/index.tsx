@@ -5,10 +5,10 @@ import { words } from "../components/WordList";
 import { TwitterShareButton } from "react-share";
 
 const Home: NextPage = () => {
-  const GREEN = '#a3e635';
-  const WHITE = 'white';
-  const YELLOW = '#facc15';
-  const GLAY = "#94a3b8"
+  const GREEN = "#a3e635";
+  const WHITE = "white";
+  const YELLOW = "#facc15";
+  const GLAY = "#94a3b8";
   const [correct, setCorrect] = useState<string>("");
   const [currentRow, setCurrentRow] = useState(0);
   const [answer, setAnswer] = useState<string[]>([""]);
@@ -41,26 +41,30 @@ const Home: NextPage = () => {
     [correct, currentRow]
   );
 
-  const shareContent = useCallback(()=>{
-    let str:string = '';
-    str = str + `CAPDLE ${answerId.current}`
-    for(let i=0; i < currentRow; i++){
-      str = str + '\n'
-      for(let j=0; j < correct.length; j++){
-        switch(answerColor(i, j, answer[i]?.[j])?.backgroundColor){
+  const shareContent = useCallback(() => {
+    let str: string = "";
+    str = str + `CAPDLE ${answerId.current}/${words.length}`;
+    for (let i = 0; i < currentRow; i++) {
+      str = str + "\n";
+      for (let j = 0; j < correct.length; j++) {
+        switch (answerColor(i, j, answer[i]?.[j])?.backgroundColor) {
           case GREEN:
-            str = str + '🟩';
+            str = str + "🟩";
             break;
           case YELLOW:
-            str = str + '🟨';
+            str = str + "🟨";
+            break;
           case GLAY:
-            str = str + '⬛'
+            str = str + "⬛";
+            break;
+          default:
+            break;
         }
       }
     }
-    str = str + '\n'
+    str = str + "\n";
     return str;
-  },[currentRow, answer, answerColor, correct]);
+  }, [currentRow, answer, answerColor, correct]);
 
   return (
     <>
@@ -71,7 +75,7 @@ const Home: NextPage = () => {
           fontWeight: "bold",
         }}
       >
-        CAPDLE&nbsp;&nbsp;{answerId.current}
+        CAPDLE&nbsp;&nbsp;{answerId.current}/{words.length}
       </div>
       <div
         style={{
@@ -82,7 +86,13 @@ const Home: NextPage = () => {
       >
         －キャッパーWORDLE－
       </div>
-      {[0, 1, 2, 3, 4, 5].map((rowIdx) => (
+      <div
+        style={{
+          height: 46*6,
+          overflowY: 'scroll'
+        }}
+      >
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((rowIdx) => (
         <div
           key={rowIdx}
           style={{
@@ -104,6 +114,7 @@ const Home: NextPage = () => {
           ))}
         </div>
       ))}
+      </div>
       <TwitterShareButton
         url={`https://capdle.netlify.app/`}
         title={shareContent()}

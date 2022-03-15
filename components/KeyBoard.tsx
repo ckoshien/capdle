@@ -28,6 +28,8 @@ const KeyBoard: React.FC<{
             if (answer[currentRow]?.length === 0) {
               alert("未入力です");
               return;
+            } else if(currentRow === 9){
+              alert('ゲームオーバー')
             }
             setCurrentRow(currentRow + 1);
           }}
