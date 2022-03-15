@@ -127,6 +127,7 @@ const Home: NextPage = () => {
         answer={answer}
         currentRow={currentRow}
         setCurrentRow={setCurrentRow}
+        correct={correct}
       />
     </>
   );

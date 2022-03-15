@@ -6,7 +6,8 @@ const KeyBoard: React.FC<{
   answer: string[];
   currentRow: number;
   setCurrentRow: Dispatch<SetStateAction<number>>;
-}> = ({ setAnswer, answer, currentRow, setCurrentRow }) => {
+  correct: string
+}> = ({ setAnswer, answer, currentRow, setCurrentRow, correct }) => {
   return (
     <>
       <div
@@ -29,7 +30,7 @@ const KeyBoard: React.FC<{
               alert("未入力です");
               return;
             } else if(currentRow === 9){
-              alert('ゲームオーバー')
+              alert(`ゲームオーバー。正解は${correct}です。`)
             }
             setCurrentRow(currentRow + 1);
           }}
