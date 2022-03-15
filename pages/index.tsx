@@ -2,8 +2,13 @@ import type { NextPage } from "next";
 import { useCallback, useEffect, useRef, useState } from "react";
 import KeyBoard from "../components/KeyBoard";
 import { words } from "../components/WordList";
+import { TwitterShareButton } from "react-share";
 
 const Home: NextPage = () => {
+  const GREEN = '#a3e635';
+  const WHITE = 'white';
+  const YELLOW = '#facc15';
+  const GLAY = "#94a3b8"
   const [correct, setCorrect] = useState<string>("");
   const [currentRow, setCurrentRow] = useState(0);
   const [answer, setAnswer] = useState<string[]>([""]);
@@ -15,49 +20,74 @@ const Home: NextPage = () => {
   }, []);
   const answerColor = useCallback(
     (row: number, col_idx: number, char: string) => {
-      if(!correct) return;
+      if (!correct) return;
       const isInclude = () => {
         return correct.includes(char);
       };
       const isCorrectPosition = () => {
         return correct.split("")[col_idx] === char;
       };
-      if (row >= currentRow){
+      if (row >= currentRow) {
         return;
       }
       if (isCorrectPosition()) {
-        return { backgroundColor: "#a3e635", color: "white" };
+        return { backgroundColor: GREEN, color: WHITE };
       } else if (isInclude()) {
-        return { backgroundColor: "#facc15", color: "white" };
+        return { backgroundColor: YELLOW, color: WHITE };
       } else {
-        return { backgroundColor: "#94a3b8", color: "white" };
+        return { backgroundColor: GLAY, color: WHITE };
       }
     },
     [correct, currentRow]
   );
 
+  const shareContent = useCallback(()=>{
+    let str:string = '';
+    str = str + `CAPDLE ${answerId.current}`
+    for(let i=0; i < currentRow; i++){
+      str = str + '\n'
+      for(let j=0; j < correct.length; j++){
+        switch(answerColor(i, j, answer[i]?.[j])?.backgroundColor){
+          case GREEN:
+            str = str + '🟩';
+            break;
+          case YELLOW:
+            str = str + '🟨';
+          case GLAY:
+            str = str + '⬛'
+        }
+      }
+    }
+    str = str + '\n'
+    return str;
+  },[currentRow, answer, answerColor, correct]);
+
   return (
     <>
       <div
         style={{
-          fontSize:20,
-          textAlign: 'center',
-          fontWeight: 'bold'
+          fontSize: 20,
+          textAlign: "center",
+          fontWeight: "bold",
         }}
-      >CAPDLE&nbsp;&nbsp;{answerId.current}</div>
+      >
+        CAPDLE&nbsp;&nbsp;{answerId.current}
+      </div>
       <div
         style={{
-          fontSize:16,
-          textAlign: 'center',
-          marginBottom:10
+          fontSize: 16,
+          textAlign: "center",
+          marginBottom: 10,
         }}
-      >－キャッパーWORDLE－</div>
+      >
+        －キャッパーWORDLE－
+      </div>
       {[0, 1, 2, 3, 4, 5].map((rowIdx) => (
         <div
           key={rowIdx}
           style={{
             display: "flex",
-            marginLeft: `calc(50vw - ${(correct.length * 44)/2}px)`
+            marginLeft: `calc(50vw - ${(correct.length * 44) / 2}px)`,
           }}
         >
           {correct.split("").map((key, colIdx) => (
@@ -65,12 +95,8 @@ const Home: NextPage = () => {
               className="cell"
               key={colIdx}
               style={{
-                color: 'black',
-                ...answerColor(
-                  rowIdx,
-                  colIdx,
-                  answer[rowIdx]?.[colIdx]
-                )
+                color: "black",
+                ...answerColor(rowIdx, colIdx, answer[rowIdx]?.[colIdx]),
               }}
             >
               {answer[rowIdx]?.[colIdx]}
@@ -78,6 +104,13 @@ const Home: NextPage = () => {
           ))}
         </div>
       ))}
+      <TwitterShareButton
+        url={`https://capdle.netlify.app/`}
+        title={shareContent()}
+        hashtags={["キャッパーWORDLE"]}
+      >
+        結果をシェア
+      </TwitterShareButton>
       <KeyBoard
         setAnswer={setAnswer}
         answer={answer}

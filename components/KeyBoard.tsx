@@ -1,4 +1,4 @@
-import { Dispatch, MutableRefObject, SetStateAction, useState } from "react";
+import { Dispatch, MutableRefObject, SetStateAction, useCallback, useState } from "react";
 import Key from "./Key";
 
 const KeyBoard: React.FC<{
@@ -12,14 +12,16 @@ const KeyBoard: React.FC<{
       <div
         style={{
           display: "flex",
+          marginLeft: `calc(50vw - ${(86)}px)`
         }}
       >
         <div
           style={{
-            backgroundColor: "#e5e7eb",
+            backgroundColor: "#baf1ba",
             width: 78,
             margin: 4,
             padding: 4,
+            borderRadius:4,
             textAlign: "center",
           }}
           onClick={() => {
@@ -30,11 +32,12 @@ const KeyBoard: React.FC<{
             setCurrentRow(currentRow + 1);
           }}
         >
-          Enter
+          回答確定
         </div>
         <div
           style={{
-            backgroundColor: "#e5e7eb",
+            backgroundColor: "#ff9f9f",
+            borderRadius:4,
             width: 78,
             margin: 4,
             padding: 4,
@@ -52,7 +55,7 @@ const KeyBoard: React.FC<{
             setAnswer(tmpAnswer);
           }}
         >
-          Delete
+          1字削除
         </div>
       </div>
       <div
