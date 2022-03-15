@@ -1,0 +1,30 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+.key{
+  border-radius: 4px;
+  background-Color: #e5e7eb;
+  width: 24px;
+  height: 24px;
+  font-weight: bold;
+  margin: 4px;
+  padding: 2px;
+  text-align: center;
+}
+
+.cell{
+  border: 2px solid #b4cbf977;
+  height: 40px;
+  width: 40px;
+  margin-bottom: 2px;
+  margin-left: 2px;
+  text-align: center;
+  font-size: 22px;
+  border-radius: 4px;
+  font-weight: bold;
+}
